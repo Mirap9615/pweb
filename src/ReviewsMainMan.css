@@ -1,0 +1,73 @@
+.search-container {
+    position: relative;
+    z-index: 10; 
+    padding: 10px; 
+}
+
+.search-input {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    outline: none;
+    z-index: 99;
+    background-color: rgba(0,0,0,0.2); 
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .search-input:focus {
+    border-color: gray;
+    box-shadow: 0 0 8px rgba(0,123,255,.5); 
+  }
+
+  .sticky-title {
+    position: relative;
+    z-index: 9; 
+    background: inherit;
+    width: auto;
+  }
+  
+  .search-and-sort {
+    display:flex;
+    align-items: center;
+    position: relative;
+    width: auto;
+    padding: 10px;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.2);
+  }
+  
+  .sort-container {
+    position: relative;
+  }
+  
+  .sort-button {
+    padding: 10px;
+    margin-right: 5px;
+    background-color: rgba(0,0,0,0.55);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+  
+  .sort-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: max-content;
+    z-index:10;
+    background-color: rgba(0,0,0,0.2);
+    border: 3px solid rgba(0,0,0,0.2);
+  }
+
+  .sort-option {
+    padding: 10px;
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+    &:hover {
+      background-color: black;
+    }
+  }
+  
+  .sort-container:hover .sort-dropdown {
+    display: block;
+  }

@@ -1,0 +1,30 @@
+.reviews-container {
+    display: flex;
+    position: absolute;
+    flex-wrap: wrap;
+    top: 80vh;
+    justify-content: space-between;
+    gap: 10px;
+    left: 5vw;
+    right: 5vw;
+    width: auto;
+  }
+  
+  .reviewed-item {
+    flex: 0 1 calc(30% - 10px); 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    background-color: rgba(255,255,255,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .reviewed-item-image {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .item-info {
+    padding: 10px 0;
+  }
+  
