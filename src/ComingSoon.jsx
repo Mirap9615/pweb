@@ -1,15 +1,16 @@
 import React from 'react';
 import Menu from './Menu.jsx';
 import './ComingSoon.css';
-import ComingSoon from './ComingSoon.jsx';
 
-function Portfolio() {
+function ComingSoon() {
   return (
     <>
       <Menu />
-      <ComingSoon />
+      <div className="big-label-font">
+        Coming Soon
+      </div>
     </>
   );
 }
 
-export default Portfolio;
+export default ComingSoon;
