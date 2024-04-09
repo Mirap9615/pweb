@@ -17,6 +17,7 @@ function Menu() {
           <a href="/about" className="dropdown-item">About</a>
           <a href="/charts" className="dropdown-item">Charts</a>
           <a href="/reviews" className="dropdown-item">Reviews</a>
+          <a href="/register" className="dropdown-item">Register</a>
     
         </div>
       )}

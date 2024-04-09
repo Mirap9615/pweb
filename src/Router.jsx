@@ -5,6 +5,7 @@ import Portfolio from './Portfolio.jsx'
 import NotFound from './NotFound.jsx'; 
 import ChartsMainMan from './ChartsMainMan.jsx'
 import ReviewsMainMan from './ReviewsMainMan.jsx'
+import SignUpForm from './SignUpForm.jsx'
 
 function AppRouter() {
   return (
@@ -15,6 +16,7 @@ function AppRouter() {
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/charts" element={<ChartsMainMan />} />
         <Route path="/reviews" element={<ReviewsMainMan />} />
+        <Route path="/register" element={<SignUpForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

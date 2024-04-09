@@ -131,6 +131,7 @@ function ReviewsMainMan() {
       <div className="sticky-title">
         <h1>Welcome to M's Reviews!</h1>
       </div>
+      
       <div className="search-and-sort">
 
       <div className="sort-container" ref={dropdownRef}>

@@ -1,19 +1,29 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
-const app = express();
+const bodyParser = require('body-parser');
 
+
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(cors()); // Enable CORS
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
+
+// Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.get('*', (req, res) =>{
+app.post('/api/register', (req, res) => {
+  console.log("Received registration request");
+  res.status(200).json({ message: 'User registered successfullyy' });
+});
+
+
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
-const port = process.env.PORT || 3000;
-
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
 app.listen(port, () => {
-  console.log(`Server listening on ${port}`);
+    console.log(`Server listening on port ${port}`);
 });
