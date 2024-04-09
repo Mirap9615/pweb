@@ -1,5 +1,7 @@
 import './Zone.css'
 import './App.css'
+import './index.css'
+
 
 /* 
 <div>
@@ -20,13 +22,10 @@ function Zone({count, setCount}) {
       <div className="card">
         <button onClick={() => setCount((count) => count - 1)}
          disabled={count <= 0}
-         className={count <= 0 ? 'disabledButton' : ''}
+         className={count <= 0 ? 'disabledButton' : 'button'}
         >
           Decrement Count
         </button>
-        <p>
-          Edit <code>App.jsx</code> and save to test!
-        </p>
       </div>
     </>
   )

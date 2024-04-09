@@ -1,4 +1,5 @@
 import './App.css'
+import './Universal.css'
 
 function Head({count, setCount}) {
 
@@ -12,7 +13,7 @@ function Head({count, setCount}) {
 
   return (
     <>
-      <button style={fixedStyle}>
+      <button className='button' style={fixedStyle}>
           Count is {count}
       </button>
     </>

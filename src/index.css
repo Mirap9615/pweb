@@ -75,7 +75,8 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: rgba(0,0,0,0.55);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -94,10 +95,12 @@ disabledButton {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: gray;
   cursor: not-allowed;
   transition: border-color 0.25s;
+  background-color: rgba(0,0,0,0.55);
+  color: rgba(255, 255, 255, 0.9);
 }
+
 button:hover {
   border-color: gray;
 }
@@ -109,13 +112,13 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0,0,0,0.55);
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgba(0,0,0,0.55);
   }
 }

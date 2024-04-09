@@ -1,5 +1,6 @@
 import './App.css'
 import './Shop.css'
+import './index.css'
 import ShopItem from './ShopItem.jsx'
 import SpinningImage from './assets/spin.jpg'
 import DarkModeImage from './assets/homura.png'
@@ -29,7 +30,7 @@ function Shop({count, setCount, isCursorPurchased, setIsCursorPurchased}) {
       <h1>Welcome to the Counts Shop.</h1>
       <div className="counts-shop">
         {shopItems.map((item) => (
-          <ShopItem
+          <ShopItem 
             key={item.id}
             name={item.name}
             cost={item.cost}

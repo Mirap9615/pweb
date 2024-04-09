@@ -7,10 +7,10 @@
 
 .logo {
   position:relative;
-  top: -0.25vw;
-  left: 37vw;
+  top: 10vw;
   height: 6em;
   padding: 1.5em;
+  right: 24vw;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -22,7 +22,7 @@
 }
 .logo.second {
   animation: none;
-  left: 52vw;
+  left: 20vw;
 }
 .logo.third {
   left: 28vw; 
