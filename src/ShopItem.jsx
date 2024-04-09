@@ -21,7 +21,7 @@ function ShopItem({ name, cost, image, onPurchase, userCount }) {
             Purchase
           </button>
         </div>
-      </div>
+      </div>  
     );
   }
   

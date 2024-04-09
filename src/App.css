@@ -24,14 +24,6 @@
   animation: none;
   left: 20vw;
 }
-.logo.third {
-  left: 28vw; 
-  top: 25vw;
-}
-.logo.fourth {
-  left: 62vw;
-  top: 25vw;
-}
 
 @keyframes logo-spin {
   from {

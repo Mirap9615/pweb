@@ -1,7 +1,12 @@
+import React from 'react';
 import './App.css'
 import './Universal.css'
+import { useAppState } from './AppStateProvider'; 
 
-function Head({count, setCount}) {
+function Head() {
+  // use hook to access the global state as ordained 
+  const { clickCount } = useAppState();
+  console.log("Current clickCount in Head:", clickCount);
 
   /* inline style */
   const fixedStyle = {
@@ -14,7 +19,7 @@ function Head({count, setCount}) {
   return (
     <>
       <button className='button' style={fixedStyle}>
-          Count is {count}
+          Count is {clickCount}
       </button>
     </>
   )

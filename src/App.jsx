@@ -2,8 +2,24 @@ import reactLogo from './assets/react.svg'
 import Madoka from './assets/madoka.png'
 import './App.css'
 import './Universal.css'
+import { useAppState } from './AppStateProvider'; 
 
-function App({count, setCount}) {
+function App() {
+  const { fetchStates } = useAppState();
+
+  const countIncremented = async() => {
+    await fetch('/api/setIncrementCount', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ IncrementCount: 1 }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+      fetchStates(); 
+    })
+    .catch(error => console.error('Error incrementing count', error));
+  }
 
   return (
     <>
@@ -17,12 +33,9 @@ function App({count, setCount}) {
       </div>
       <h1>Misaka x Madoka </h1>
       <div className="card">
-        <button className="button" onClick={() => setCount((count) => count + 1)}>
+        <button className="button" onClick={() => countIncremented()}>
           Increment Count
         </button>
-        <p>
-          Edit <code>App.jsx</code> and save to test!
-        </p>
       </div>
     </>
   )

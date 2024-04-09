@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainMan from './MainMan.jsx';
 import Portfolio from './Portfolio.jsx'
 import NotFound from './NotFound.jsx'; 
-import ChartsMainMan from './ChartsMainMan.jsx'
-import ReviewsMainMan from './ReviewsMainMan.jsx'
-import SignUpForm from './SignUpForm.jsx'
+import ChartsMainMan from './ChartsMainMan.jsx';
+import ReviewsMainMan from './ReviewsMainMan.jsx';
+import SignUpForm from './SignUpForm.jsx';
+import Settings from './Settings.jsx';
 
 function AppRouter() {
   return (
@@ -17,6 +18,7 @@ function AppRouter() {
         <Route path="/charts" element={<ChartsMainMan />} />
         <Route path="/reviews" element={<ReviewsMainMan />} />
         <Route path="/register" element={<SignUpForm />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

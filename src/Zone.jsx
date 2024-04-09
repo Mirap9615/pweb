@@ -1,28 +1,32 @@
 import './Zone.css'
 import './App.css'
 import './index.css'
+import { useAppState } from './AppStateProvider'; // Routine 1
 
+function Zone() {
+  const { fetchStates, clickCount } = useAppState(); // Routine 2
 
-/* 
-<div>
-        <a href="https://myanimelist.net/profile/Miracle9615" target="_blank">
-          <img src="https://cdn.myanimelist.net/s/common/userimages/409c6fdf-3f11-48c1-85d2-ba3e74844f6a_225w?s=44cc62e10a8b60e465ac5503ec4efb86" className="logo third" alt="MAL logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={"https://i.imgur.com/oaHMn00.jpg"} className="logo fourth" alt="Dreamcatcher Raising Project" />
-        </a>
-      </div>
-*/
-function Zone({count, setCount}) {
+  const decrementCount = async () => {
+    await fetch('/api/decrementCount', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ DecrementCount: 1})
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+      fetchStates(); 
+    })
+    .catch(error => console.error('Error decrementing count:', error));
+  };
 
   return (
     <>
-      
       <h1>The Deadly Sins.</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count - 1)}
-         disabled={count <= 0}
-         className={count <= 0 ? 'disabledButton' : 'button'}
+        <button onClick={() => decrementCount()}
+         disabled={clickCount <= 0}
+         className={clickCount <= 0 ? 'disabledButton' : 'button'}
         >
           Decrement Count
         </button>
