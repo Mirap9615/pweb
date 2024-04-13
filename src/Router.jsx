@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainMan from './MainMan.jsx';
+import AniPage from './AniPage.jsx';
 import Portfolio from './Portfolio.jsx'
 import NotFound from './NotFound.jsx'; 
 import ChartsMainMan from './ChartsMainMan.jsx';
@@ -14,6 +15,7 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<MainMan />} />
         <Route path="/home" element={<MainMan />} />
+        <Route path="/page" element={<AniPage />}/>
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/charts" element={<ChartsMainMan />} />
         <Route path="/reviews" element={<ReviewsMainMan />} />

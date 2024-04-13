@@ -1,0 +1,38 @@
+.center {
+    text-align: center;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  blockquote {
+    margin: 20px;
+  }
+  
+  .large {
+    font-size: 3.5rem;
+    color: #FF69B4;
+  }
+  
+  .medium {
+    font-size: 2rem;
+    display: inline; /* Keeps them on the same line with the bullets */
+  }
+  
+  .orange { color: #FFA500; }
+  .pinkish { color: #FFC0CB; }
+  .red { color: #FF0000; }
+  .blue { color: #0000FF; }
+  .green { color: #32CD32; }
+  .purple { color: #800080; }
+  .gold { color: #FFD700; }
+  .cyan { color: #00FFFF; }
+  .teal { color: #008080; }
+
+  .no-background::after {
+    background: white !important;
+  }
+  
+  

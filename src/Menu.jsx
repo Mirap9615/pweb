@@ -13,6 +13,7 @@ function Menu() {
       {isDropdownVisible && (
         <div className="dropdown">
           <a href="/home" className="dropdown-item">Home</a>
+          <a href="/page" className="dropdown-item">AniPage</a>
           <a href="/portfolio" className="dropdown-item">Portfolio</a>
           <a href="/about" className="dropdown-item">About</a>
           <a href="/charts" className="dropdown-item">Charts</a>

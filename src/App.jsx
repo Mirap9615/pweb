@@ -1,4 +1,3 @@
-import reactLogo from './assets/react.svg'
 import Madoka from './assets/madoka.png'
 import './App.css'
 import './Universal.css'
