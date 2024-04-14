@@ -6,6 +6,7 @@ import Portfolio from './Portfolio.jsx'
 import NotFound from './NotFound.jsx'; 
 import ChartsMainMan from './ChartsMainMan.jsx';
 import ReviewsMainMan from './ReviewsMainMan.jsx';
+import MALUserSearch from './MALUserSearch.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import Settings from './Settings.jsx';
 
@@ -19,6 +20,7 @@ function AppRouter() {
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/charts" element={<ChartsMainMan />} />
         <Route path="/reviews" element={<ReviewsMainMan />} />
+        <Route path="/searchMAL" element={<MALUserSearch />} />
         <Route path="/register" element={<SignUpForm />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />

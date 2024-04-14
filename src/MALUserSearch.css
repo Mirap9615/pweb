@@ -1,0 +1,65 @@
+/* Dark theme styling */
+body, input, button {
+  color: #FFF;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #555;
+  background-color: #222;
+  color: white;
+}
+
+.search-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #555;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #777;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.anime-row {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin-top: 20px;
+  background-color: #222;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.anime-image {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.anime-info {
+  flex: 1;
+}
+
+.anime-info h3 {
+  margin-top: 0;
+}
+
+.anime-info p {
+  margin: 5px 0;
+}
