@@ -1,1 +1,13 @@
+# Environment variables
+.env
+
+# Dependency directory
 node_modules
+
+# Production build files
+/dist/
+
+# Other unnecessary files
+*.log
+*.cache
+.DS_Store
