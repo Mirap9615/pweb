@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const axios = require('axios');
@@ -22,7 +21,7 @@ app.use(session({
   secret: 'a_secret_key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true } 
+  cookie: { secure: false } 
 }));
 
 // the api endpoint for the server to handle register-related requests 
@@ -144,6 +143,7 @@ async function getTokenWithCode(authCode, codeVerifier, redirectUri) {
         console.error('Error setting up the request:', error.message);
       }
       res.status(500).json({ message: 'Failed to retrieve data from MyAnimeList' });
+      throw error;
     }
 }
 
