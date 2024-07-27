@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+require('dotenv').config({ path: '.env.local' });
 const axios = require('axios');
 const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;

@@ -21,6 +21,7 @@ function Menu() {
           <a href="/searchMAL" className="dropdown-item">Search MAL User</a>
           <a href="/register" className="dropdown-item">Register</a>
           <a href="/settings" className="dropdown-item">Settings</a>
+          <a href="/cool" className="dropdown-item">Cool</a>
         </div>
       )}
     </div>

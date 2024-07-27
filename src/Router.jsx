@@ -9,6 +9,7 @@ import ReviewsMainMan from './ReviewsMainMan.jsx';
 import MALUserSearch from './MALUserSearch.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import Settings from './Settings.jsx';
+import Cool from './Cool.jsx';
 
 function AppRouter() {
   return (
@@ -22,6 +23,7 @@ function AppRouter() {
         <Route path="/reviews" element={<ReviewsMainMan />} />
         <Route path="/searchMAL" element={<MALUserSearch />} />
         <Route path="/register" element={<SignUpForm />} />
+        <Route path="/cool" element={<Cool />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
