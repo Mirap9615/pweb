@@ -10,6 +10,7 @@ import MALUserSearch from './MALUserSearch.jsx';
 import SignUpForm from './SignUpForm.jsx';
 import Settings from './Settings.jsx';
 import Cool from './Cool.jsx';
+import Scrape from './Scrape.jsx';
 
 function AppRouter() {
   return (
@@ -25,6 +26,7 @@ function AppRouter() {
         <Route path="/register" element={<SignUpForm />} />
         <Route path="/cool" element={<Cool />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/scrape" element={<Scrape />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

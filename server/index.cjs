@@ -4,11 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: '.env.local' });
 const axios = require('axios');
+const puppeteer = require('puppeteer');
 const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;
+const cheerio = require('cheerio');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3015;
 
 app.use(cors()); 
 app.use(express.json());
@@ -107,6 +109,166 @@ app.get('/api/getUserAnimeList', ensureValidToken, async (req, res) => {
     res.status(500).json({ message: 'Failed to retrieve data from MyAnimeList' });
   }
 })
+
+// scrape MAL directly 
+app.post('/scrape', async (req, res) => {
+  const { username } = req.body;
+  
+  try {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Fetch profile data
+    await page.goto(`https://myanimelist.net/profile/${username}`);
+    const profileHtml = await page.content();
+    const profileData = parseProfileData(profileHtml);
+
+    // Fetch anime list data
+    await page.goto(`https://myanimelist.net/animelist/${username}?order=4&status=2`);
+    const animeListHtml = await page.content();
+    const animeListData = parseAnimeListData(animeListHtml);
+
+    await browser.close();
+
+    res.json({ profileData, animeListData });
+  } catch (error) {
+    console.log("error!");
+    console.log(error);
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
+function parseProfileData(html) {
+  const $ = cheerio.load(html);
+
+  const titleText = $('title').text().trim();
+  const username = titleText.replace("'s Profile - MyAnimeList.net", "").trim();
+  const profileImageUrl = $('.user-image img').attr('data-src') || $('.user-image img').attr('src');
+
+  function safeParse(selector, parser) {
+    try {
+      return $(selector).map(parser).get();
+    } catch (error) {
+      console.error(`Error parsing ${selector}:`, error);
+      return [];
+    }
+  }
+  
+  const favoriteAnime = safeParse('#anime_favorites .fav-slide-outer .fav-slide li.btn-fav', (i, el) => {
+    const $el = $(el);
+    const users = $el.find('.users').text().split('·');
+    return {
+      title: $el.attr('title'),
+      url: $el.find('a').attr('href'),
+      imageUrl: $el.find('img').attr('data-src') || $el.find('img').attr('src'),
+      type: users[0]?.trim() || '',
+      year: users[1]?.trim() || ''
+    };
+  });
+
+  const favoriteManga = safeParse('#manga_favorites .fav-slide-outer .fav-slide li.btn-fav', (i, el) => {
+    const $el = $(el);
+    const users = $el.find('.users').text().split('·');
+    return {
+      title: $el.attr('title'),
+      url: $el.find('a').attr('href'),
+      imageUrl: $el.find('img').attr('data-src') || $el.find('img').attr('src'),
+      type: users[0]?.trim() || '',
+      year: users[1]?.trim() || ''
+    };
+  });
+
+  const favoriteCharacters = safeParse('#character_favorites .fav-slide-outer .fav-slide li.btn-fav', (i, el) => {
+    const $el = $(el);
+    return {
+      title: $el.attr('title'),
+      url: $el.find('a').attr('href'),
+      imageUrl: $el.find('img').attr('data-src') || $el.find('img').attr('src'),
+      fromAnime: $el.find('.users').text().trim()
+    };
+  });
+
+  const favoritePeople = safeParse('#person_favorites .fav-slide-outer .fav-slide li.btn-fav', (i, el) => {
+    const $el = $(el);
+    return {
+      title: $el.attr('title'),
+      url: $el.find('a').attr('href'),
+      imageUrl: $el.find('img').attr('data-src') || $el.find('img').attr('src'),
+    };
+  });
+
+  const favoriteCompanies = safeParse('#company_favorites .fav-slide-outer .fav-slide li.btn-fav', (i, el) => {
+    const $el = $(el);
+    return {
+      title: $el.attr('title'),
+      url: $el.find('a').attr('href'),
+      imageUrl: $el.find('img').attr('data-src') || $el.find('img').attr('src'),
+    };
+  });
+
+  const animeStats = {
+    daysWatched: $('.anime .stat-score .di-tc:first-child').text().match(/Days:\s*([\d.]+)/)?.[1],
+    meanScore: $('.anime .stat-score .score-label').text().trim(),
+    watching: $('.stats-status .watching + span').text().trim(),
+    completed: $('.stats-status .completed + span').text().trim(),
+    onHold: $('.stats-status .on_hold + span').text().trim(),
+    dropped: $('.stats-status .dropped + span').text().trim(),
+    planToWatch: $('.stats-status .plan_to_watch + span').text().trim(),
+    totalEntries: $('.stats-data li:contains("Total Entries") span:last-child').text().trim(),
+    rewatched: $('.stats-data li:contains("Rewatched") span:last-child').text().trim(),
+    episodes: $('.stats-data li:contains("Episodes") span:last-child').text().trim()
+  };
+  
+  return {
+    username: username,
+    profileImageUrl: profileImageUrl,
+    joinDate: $('span.user-status-title:contains("Joined")').siblings('span.user-status-data').text().trim(),
+    lastOnline: $('span.user-status-title:contains("Last Online")').siblings('span.user-status-data').text().trim(),
+    animeStats: animeStats,
+    favoriteAnime: favoriteAnime,
+    favoriteManga: favoriteManga,
+    favoriteCharacters: favoriteCharacters,
+    favoritePeople: favoritePeople,
+    favoriteCompanies: favoriteCompanies
+  };
+}
+
+function parseAnimeListData(html) {
+  const $ = cheerio.load(html);
+  const animeData = [];
+
+  $('tbody.list-item').each((i, el) => {
+    const $row = $(el).find('tr.list-table-data');
+    const $moreInfo = $(el).find('tr.more-info');
+
+    const id = $row.attr('id')?.replace('score-', '') || '';
+    const rank = $row.find('.data.number').text().trim();
+    const imageUrl = $row.find('.data.image img').attr('src');
+    const title = $row.find('.data.title .link.sort').text().trim();
+    const url = $row.find('.data.title .link.sort').attr('href');
+    const score = $row.find('.data.score .score-label').text().trim();
+    const type = $row.find('.data.type').text().trim();
+    const progress = $row.find('.data.progress span').text().trim();
+    const notes = $row.find('.data.title .notes .text').text().trim();
+    
+    const hasStreamingIcon = $row.find('.data.title .icon-watch2').length > 0;
+
+    animeData.push({
+      id,
+      rank,
+      imageUrl,
+      title,
+      url,
+      score,
+      type,
+      progress,
+      notes,
+      hasStreamingIcon
+    });
+  });
+
+  return animeData;
+}
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
@@ -240,4 +402,5 @@ app.get('/success', (req, res) => {
 app.get('/auth/error', (req, res) => {
   res.status(401).send('Error during the authentication process.');
 });
+
 

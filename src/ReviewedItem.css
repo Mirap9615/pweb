@@ -1,6 +1,5 @@
 .reviews-container {
     display: flex;
-    position: absolute;
     flex-wrap: wrap;
     top: 80vh;
     justify-content: space-between;
