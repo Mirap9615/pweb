@@ -115,7 +115,10 @@ app.post('/scrape', async (req, res) => {
   const { username } = req.body;
   
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/app/.apt/usr/bin/google-chrome',
+    });
     const page = await browser.newPage();
 
     // Fetch profile data
