@@ -121,9 +121,7 @@ async function launchBrowser() {
   };
 
   if (isHeroku) {
-    const browserFetcher = new chromium.BrowserFetcher();
-    const revisionInfo = await browserFetcher.download();
-    options.executablePath = revisionInfo.executablePath;
+    options.executablePath = './.cache/puppeteer/chrome/linux-*/chrome-linux/chrome';
   }
 
   return puppeteer.launch(options);
