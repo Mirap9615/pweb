@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
 const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;
 const cheerio = require('cheerio');
+const chromium = require('@puppeteer/browsers').chromium;
 
 const app = express();
 const port = process.env.PORT || 3015;
@@ -120,7 +121,9 @@ async function launchBrowser() {
   };
 
   if (isHeroku) {
-    options.executablePath = '/app/.apt/usr/bin/google-chrome';
+    const browserFetcher = new chromium.BrowserFetcher();
+    const revisionInfo = await browserFetcher.download();
+    options.executablePath = revisionInfo.executablePath;
   }
 
   return puppeteer.launch(options);
