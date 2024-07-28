@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-require('dotenv').config({ path: '.env.local' });
+require('dotenv').config({ path: '.env' });
 const axios = require('axios');
 const puppeteer = require('puppeteer');
 const session = require('express-session');
@@ -111,14 +111,26 @@ app.get('/api/getUserAnimeList', ensureValidToken, async (req, res) => {
 })
 
 // scrape MAL directly 
+async function launchBrowser() {
+  const isHeroku = process.env.IS_HEROKU === 'true';
+  
+  const options = {
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: "new"
+  };
+
+  if (isHeroku) {
+    options.executablePath = '/app/.apt/usr/bin/google-chrome';
+  }
+
+  return puppeteer.launch(options);
+}
+
 app.post('/scrape', async (req, res) => {
   const { username } = req.body;
   
   try {
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/app/.apt/usr/bin/google-chrome',
-    });
+    const browser = await launchBrowser();
     const page = await browser.newPage();
 
     // Fetch profile data
