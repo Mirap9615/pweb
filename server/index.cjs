@@ -270,14 +270,6 @@ function parseAnimeListData(html) {
   return animeData;
 }
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
-
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
-
 function generateCodeVerifier() {
 return require('crypto').randomBytes(64).toString('hex').substr(0, 128);  // Secure random token
 }
@@ -403,4 +395,10 @@ app.get('/auth/error', (req, res) => {
   res.status(401).send('Error during the authentication process.');
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
