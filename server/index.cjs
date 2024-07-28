@@ -9,6 +9,7 @@ const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;
 const cheerio = require('cheerio');
 const chromium = require('@puppeteer/browsers').chromium;
+const fs = require('fs').promises;
 
 const app = express();
 const port = process.env.PORT || 3015;
@@ -112,6 +113,36 @@ app.get('/api/getUserAnimeList', ensureValidToken, async (req, res) => {
 })
 
 // scrape MAL directly 
+
+async function findChromePath() {
+  const possiblePaths = [
+    '/app/.apt/usr/bin/google-chrome',
+    '/app/.apt/opt/google/chrome/chrome',
+    '/app/.chrome/bin/chrome',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium-browser',
+  ];
+
+  // Add dynamic path for Puppeteer's downloaded Chrome
+  const puppeteerPath = path.join('.', '.cache', 'puppeteer', 'chrome');
+  if (await fs.access(puppeteerPath).then(() => true).catch(() => false)) {
+    const chromeVersions = await fs.readdir(puppeteerPath);
+    if (chromeVersions.length > 0) {
+      possiblePaths.unshift(path.join(puppeteerPath, chromeVersions[0], 'chrome-linux', 'chrome'));
+    }
+  }
+
+  for (const chromePath of possiblePaths) {
+    if (await fs.access(chromePath).then(() => true).catch(() => false)) {
+      console.log(`Chrome found at: ${chromePath}`);
+      return chromePath;
+    }
+  }
+
+  console.log('Chrome not found in any of the expected locations');
+  return null;
+}
+
 async function launchBrowser() {
   const isHeroku = process.env.IS_HEROKU === 'true';
   
@@ -121,7 +152,12 @@ async function launchBrowser() {
   };
 
   if (isHeroku) {
-    options.executablePath = './.cache/puppeteer/chrome/linux-*/chrome-linux/chrome';
+    const chromePath = await findChromePath();
+    if (chromePath) {
+      options.executablePath = chromePath;
+    } else {
+      throw new Error('Unable to find Chrome executable on Heroku');
+    }
   }
 
   return puppeteer.launch(options);
