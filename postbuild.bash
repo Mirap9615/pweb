@@ -6,8 +6,8 @@ echo "Current directory: $(pwd)"
 echo "Installing dependencies..."
 npm install
 
-echo "Building the frontend with Vite..."
-npm run build  
+echo "DEBUG: Running npm run build manually..."
+npm run build || echo "ERROR: Build failed!"
 
 echo "Listing dist/ directory after build:"
 ls -la dist
