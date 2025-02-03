@@ -13,12 +13,20 @@ const fs = require('fs').promises;
 const app = express();
 const port = process.env.PORT || 3015;
 
+app.use(express.static(path.join(__dirname, '../dist'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    } else if (filePath.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
+
 app.use(cors()); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use(session({
   secret: 'a_secret_key',
@@ -26,6 +34,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false } 
 }));
+
 
 // the api endpoint for the server to handle register-related requests 
 app.post('/api/register', (req, res) => {
@@ -450,7 +459,10 @@ app.get('/auth/error', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+  if (req.path.startsWith('/api') || req.path.includes('.')) {
+    return res.status(404).send('Not Found');
+  }
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
 module.exports = { launchBrowser };
