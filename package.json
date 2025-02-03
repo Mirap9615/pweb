@@ -4,12 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "proxy": "http://localhost:3015",
+  "engines": {
+  "node": "18.x"
+},
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "node server/index.cjs",
+    "heroku-prebuild": "npm install --production",
     "heroku-postbuild": "bash postbuild.bash"
   },
   "dependencies": {
