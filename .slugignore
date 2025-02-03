@@ -1,0 +1,5 @@
+node_modules/.cache
+node_modules/.vite
+.cache
+chromium
+dist/assets/*.map
