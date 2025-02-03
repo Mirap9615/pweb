@@ -4,6 +4,7 @@ echo "Starting postbuild script"
 echo "Current directory: $(pwd)"
 
 echo "Installing dependencies..."
+export PUPPETEER_SKIP_DOWNLOAD="true"
 npm install
 
 echo "DEBUG: Running npm run build manually..."
