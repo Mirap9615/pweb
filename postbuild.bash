@@ -1,11 +1,25 @@
 #!/bin/bash
+
 echo "Starting postbuild script"
 echo "Current directory: $(pwd)"
+
+echo "Installing dependencies..."
+npm install
+
+echo "Building the frontend with Vite..."
+npm run build  
+
+echo "Listing dist/ directory after build:"
+ls -la dist
+echo "Listing dist/assets/ directory after build:"
+ls -la dist/assets
+
 echo "Listing /app directory:"
 ls -la /app
 echo "Listing /app/.cache directory:"
 ls -la /app/.cache
-echo "Storing puppeteer executable in cache"
+
+echo "Storing Puppeteer executable in cache"
 mkdir -p ./.cache
 if [ -d "/app/.cache/puppeteer" ]; then
   echo "Found Puppeteer cache, moving it"
@@ -15,6 +29,7 @@ if [ -d "/app/.cache/puppeteer" ]; then
 else
   echo "Puppeteer cache not found in expected location"
   echo "Listing /app/.cache/puppeteer directory:"
-  ls -la /app/.cache/puppeteer
+  ls -la /app/.cache/puppeteer || echo "Directory does not exist"
 fi
-echo "Postbuild script completed"
+
+echo "Postbuild script completed successfully"
