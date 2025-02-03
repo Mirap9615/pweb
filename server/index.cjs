@@ -4,11 +4,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: '.env' });
 const axios = require('axios');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+const path = require('path');
 const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;
 const cheerio = require('cheerio');
-const chromium = require('@puppeteer/browsers').chromium;
 const fs = require('fs').promises;
 
 const app = express();
@@ -121,6 +121,10 @@ async function findChromePath() {
     '/app/.chrome/bin/chrome',
     '/usr/bin/google-chrome',
     '/usr/bin/chromium-browser',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', // macOS
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe', // Windows
+    '/usr/bin/google-chrome', // Linux
+    '/usr/bin/chromium-browser', // Linux alternative
   ];
 
   // Add dynamic path for Puppeteer's downloaded Chrome
@@ -145,19 +149,18 @@ async function findChromePath() {
 
 async function launchBrowser() {
   const isHeroku = process.env.IS_HEROKU === 'true';
-  
-  const options = {
+
+  let options = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    headless: "new"
+    headless: "new",
   };
 
   if (isHeroku) {
-    const chromePath = await findChromePath();
-    if (chromePath) {
-      options.executablePath = chromePath;
-    } else {
-      throw new Error('Unable to find Chrome executable on Heroku');
-    }
+    console.log("Running on Heroku - using system Chrome.");
+    options.executablePath = process.env.CHROME_BIN || '/usr/bin/google-chrome';
+  } else {
+    console.log("Running locally - using installed Puppeteer.");
+    options = { ...options, executablePath: await findChromePath() };
   }
 
   return puppeteer.launch(options);
@@ -450,6 +453,8 @@ app.get('/auth/error', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
+
+module.exports = { launchBrowser };
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

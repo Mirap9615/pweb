@@ -5,8 +5,8 @@
   "type": "module",
   "proxy": "http://localhost:3015",
   "engines": {
-  "node": "18.x"
-},
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -17,13 +17,10 @@
     "heroku-postbuild": "bash postbuild.bash"
   },
   "dependencies": {
-    "vite": "^5.2.0",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "@puppeteer/browsers": "^2.3.0",
     "@tanstack/react-table": "^8.15.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
-    "chromium": "^3.0.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -32,11 +29,12 @@
     "fs": "^0.0.1-security",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
-    "puppeteer": "^22.14.0",
+    "puppeteer-core": "^24.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "sort-by": "^0.0.2"
+    "sort-by": "^0.0.2",
+    "vite": "^5.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
