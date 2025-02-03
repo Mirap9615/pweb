@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config({ path: '.env' });
 const axios = require('axios');
 const puppeteer = require('puppeteer-core');
-const path = require('path');
 const session = require('express-session');
 const redirectUri = process.env.REDIRECT_URI;
 const cheerio = require('cheerio');
